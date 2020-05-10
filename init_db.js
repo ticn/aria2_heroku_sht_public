@@ -37,12 +37,13 @@ const client = new Client({
 });
 
 async function main(){
-    // Init db,
+    // Init db, 
     try{
         client.connect();
     }catch(err){
         console.error(err);
     }
+    console.log("Initializing Database");
     await client.query(`CREATE TABLE IF NOT EXISTS posts(
         id SERIAL PRIMARY KEY,
         url VARCHAR(50) UNIQUE NOT NULL,
@@ -63,12 +64,10 @@ async function main(){
     // console.log($("tbody[id^='normalthread']").length);
     const lastPageHref = $("div.pg > a.last").attr('href');
     response = await gotInstance.get(lastPageHref);
-    console.log(lastPageHref);
     const regex = /(forum-103-)(\d*).html/;
     const match = lastPageHref.match(regex);
     const forumPrefix = match[1];
     const maxPageNumber = parseInt(match[2]);
-    console.log(forumPrefix,maxPageNumber);
 
     console.log('Checking new posts...');
     const query_text = `INSERT INTO posts (url,title,postdate,downloaded)
@@ -79,7 +78,6 @@ async function main(){
     // let visted = false;
     for (let i = 1 ; i<= 10 ; i++){
         //
-        console.log(`Working on page ${i}`);
         
         const promises = [];
         try{
@@ -109,7 +107,7 @@ async function main(){
         }
     }
 
-    console.log('Fetching magnets from new posts...');
+    console.log('Fetching magnets from posts...');
     const res = await client.query(`SELECT url FROM posts
     WHERE
     magnet IS NULL
@@ -134,6 +132,7 @@ async function main(){
     }
 
     await Promise.map(postsWithoutMagnet,parseMagnet,{concurrency:32});
+    console.log('Database Initialization finsihed');
     await client.end();
 }
 

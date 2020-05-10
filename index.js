@@ -99,8 +99,6 @@ async function restore_undownloaded(){
             },
             responseType: 'json'
         });
-        console.log(`${url} ${title} sent to aria2, response is`);
-        console.log(body);
         if (body.result){
             const gid = body.result;
             const timer = setInterval(async ()=>{
@@ -117,8 +115,6 @@ async function restore_undownloaded(){
                     },
                     responseType: 'json'
                 });
-                console.log(`Checking redownloaded item ${gid} every 5 min`);
-                console.log(body);
                 if(body.result && body.result.status && body.result.status == 'complete'){
                         // Metalink downloaded, check followedBy link status
                         if(body.result.followedBy){
@@ -137,10 +133,8 @@ async function restore_undownloaded(){
                                 responseType: 'json'
                             });
                             const jsonres = response.body;
-                            console.log(`Checking new item ${gid} followed by ${followedByGID}`);
-                            console.log(jsonres);
                             if(jsonres.result && jsonres.result.status && jsonres.result.status == 'complete'){
-                                console.log(`Complete new item ${url}, ${gid}-> Followed by ${followedByGID}, remove from downloading table, setting downloaded to true`);                                
+                                console.log(`Complete new item ${url}, ${gid}-> Followed by ${followedByGID}`);                                
                                 clearInterval(timer);
                                 // Delete such job from downloading
                                 const delete_query = `DELETE FROM downloading
@@ -181,7 +175,6 @@ async function updateDB(){
 
     for (let i = 1 ; i<= 10 ; i++){
         //
-        console.log(`Working on page ${i}`);
         const promises = [];
         try{
             respone = await gotInstance.get(`${forumPrefix}${i}.html`);
@@ -264,7 +257,7 @@ async function main(){
         result = await client.query(prepare_jobs_query,[latestDate]);
         // Iterate throuogh rows, add to aria, create a setInterval to check download status
         // After download finished, remove url from downloading table, set downloaded to true
-        console.log('Adding to aria');
+        console.log('Adding magnets...');
         for (const doc of result.rows){
             const url = doc['url'];
             const magnet = doc['magnet'];
@@ -288,7 +281,6 @@ async function main(){
                 },
                 responseType: 'json'
             });
-            console.log(body);
             if (body.result){
                 const gid = body.result;
                 // Insert to downloading
@@ -308,14 +300,11 @@ async function main(){
                         },
                         responseType: 'json'
                     });
-                    console.log(`Checking new item ${gid} every 5 min`);
-                    console.log(body);
                     //TODO GID Here is metalink GID, need to check if there is followed by, and is followed_by.status is complete
                     if(body.result && body.result.status && body.result.status == 'complete'){
                         // Metalink downloaded, check followedBy link status
                         if(body.result.followedBy){
                             const followedByGID = (body.result.followedBy)[0];
-                            console.log(`Checking new item ${gid} followed by ${followedByGID}`);
                             const response = await got.post("http://localhost:6800/jsonrpc", {
                                 json: {
                                     "jsonrpc": "2.0",
@@ -330,9 +319,8 @@ async function main(){
                                 responseType: 'json'
                             });
                             const jsonres = response.body;
-                            console.log(jsonres);
                             if(jsonres.result && jsonres.result.status && jsonres.result.status == 'complete'){
-                                console.log(`Complete new item ${url}, ${gid}-> Followed by ${followedByGID}, remove from downloading table, setting downloaded to true`);                                
+                                console.log(`Complete new item ${url}, ${gid}-> Followed by ${followedByGID}`);                                
                                 clearInterval(timer);
                                 // Delete such job from downloading
                                 const delete_query = `DELETE FROM downloading
