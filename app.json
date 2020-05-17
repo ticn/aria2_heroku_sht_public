@@ -30,7 +30,12 @@
             "description": "色华堂域名，如果默认值可以访问可以不用更改, default: https://www.sehuatang.org/",
             "required": false,
             "value": "https://www.sehuatang.org/"
-        }
+		},
+		"CFLINK":{
+			"description": "CF Fetch Bot link. Experimental, Optional ",
+            "required": false,
+            "value": ""			
+		}
 	},
 	"buildpacks": [
 		{

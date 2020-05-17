@@ -25,6 +25,8 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 const ARIA_SECRET = process.env.ARIA2C_SECRET || 'test';
 const SHTBASE = process.env.SHTLINK || "https://www.sehuatang.org/";
+const APPNAME = process.env.HEROKU_APP_NAME || null;
+const CFLINK = process.env.CFLINK || null;
 const keepAliveHttpAgent = new HttpAgent({
     maxSockets: 100,
     maxFreeSockets: 10,
@@ -336,6 +338,13 @@ async function main(){
             }
         }
         setTimeout(checkNewPost,humanInterval('1 hour'));
+    }
+    //Set up CF fetch bot
+    if(APPNAME && CFLINK){
+        const requestURL = CFLINK + '?url=' + encodeURIComponent(`https://${APPNAME}.herokuapp.com`);
+        setInterval(async ()=>{
+            await gotInstance.get(requestURL);
+        },humanInterval('10 minutes'));
     }
     await checkNewPost();
 }
