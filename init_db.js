@@ -46,7 +46,7 @@ async function main(){
     console.log("Initializing Database");
     await client.query(`CREATE TABLE IF NOT EXISTS posts(
         id SERIAL PRIMARY KEY,
-        url VARCHAR(50) UNIQUE NOT NULL,
+        url VARCHAR(100) UNIQUE NOT NULL,
         title VARCHAR(100) NOT NULL,
         magnet VARCHAR(100),
         postdate DATE NOT NULL,

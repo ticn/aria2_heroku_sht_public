@@ -32,7 +32,7 @@
             "value": "https://www.sehuatang.org/"
 		},
 		"CFLINK":{
-			"description": "CF Fetch Bot link. Experimental, Optional ",
+			"description": "CF Fetch Bot link. Experimental, Optional, eg: https://abc.workers.dev/ ",
             "required": false,
             "value": ""			
 		}
