@@ -346,7 +346,7 @@ async function main(){
         console.log(`requestURL is ${requestURL}`);
         setInterval(async ()=>{
             console.log('Calling CF worker');
-            await gotInstance.get(requestURL);
+            await got.get(requestURL);
         },humanInterval('5 minutes'));
     }
     await checkNewPost();
