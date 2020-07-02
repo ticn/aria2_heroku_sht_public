@@ -343,6 +343,7 @@ async function main(){
     if(APPNAME && CFLINK){
         console.log('CF Link exists');
         const requestURL = CFLINK + '?url=' + encodeURIComponent(`https://${APPNAME}.herokuapp.com`);
+        console.log(`requestURL is ${requestURL}`);
         setInterval(async ()=>{
             console.log('Calling CF worker');
             await gotInstance.get(requestURL);
