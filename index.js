@@ -341,10 +341,12 @@ async function main(){
     }
     //Set up CF fetch bot
     if(APPNAME && CFLINK){
+        console.log('CF Link exists');
         const requestURL = CFLINK + '?url=' + encodeURIComponent(`https://${APPNAME}.herokuapp.com`);
         setInterval(async ()=>{
+            console.log('Calling CF worker');
             await gotInstance.get(requestURL);
-        },humanInterval('10 minutes'));
+        },humanInterval('5 minutes'));
     }
     await checkNewPost();
 }
