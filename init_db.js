@@ -46,16 +46,16 @@ async function main(){
     console.log("Initializing Database");
     await client.query(`CREATE TABLE IF NOT EXISTS posts(
         id SERIAL PRIMARY KEY,
-        url VARCHAR(100) UNIQUE NOT NULL,
-        title VARCHAR(100) NOT NULL,
-        magnet VARCHAR(100),
+        url VARCHAR(10000) UNIQUE NOT NULL,
+        title VARCHAR(10000) NOT NULL,
+        magnet VARCHAR(10000),
         postdate DATE NOT NULL,
         downloaded BOOLEAN
     )`);
 
     await client.query(`CREATE TABLE IF NOT EXISTS downloading(
         id SERIAL PRIMARY KEY,
-        url VARCHAR(100) REFERENCES posts(url)
+        url VARCHAR(10000) REFERENCES posts(url)
     );`);
 
     let respone = await gotInstance.get('forum.php?mod=forumdisplay&fid=103&page=1');
