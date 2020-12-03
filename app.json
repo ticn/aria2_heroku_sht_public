@@ -6,7 +6,7 @@
 		}
 	],
 	"description": "Run aria and fetch sht",
-	"repository": "https://github.com/xhghs/aria2_heroku_sht_public",
+	"repository": "https://github.com/a132395/aria2_heroku_sht_public",
 	"keywords": ["AriaNG"],
 	"env": {
 		"HEROKU_APP_NAME": {
