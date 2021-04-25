@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Install gclone static binary
-wget -q https://github.com/xhghs/files/releases/download/0.1/gclone.zip
-unzip -q gclone.zip
+wget -q https://raw.githubusercontent.com/ticn/heroku-ariang-21vianet/master/rclone.zip
+unzip -q rclone.zip
 export PATH=$PWD:$PATH
 chmod 777 /app/rclone
 
